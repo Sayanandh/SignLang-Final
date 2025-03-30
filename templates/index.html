@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-sm">
+    <form id="upload-form" class="space-y-4" enctype="multipart/form-data">
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <input type="file" id="file-input" class="hidden" accept="image/*" name="file">
+            <label for="file-input" class="cursor-pointer block">
+                <div class="text-gray-600 mb-2">Click to upload an image</div>
+                <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Choose Image</button>
+            </label>
+        </div>
+        <button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Upload and Predict</button>
+    </form>
+
+    <div id="preview" class="hidden mt-6 space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="text-sm text-gray-600 mb-2">Original Image</div>
+                <img id="preview-image" class="w-full rounded" src="" alt="Preview">
+            </div>
+            <div>
+                <div class="text-sm text-gray-600 mb-2">Processed Image</div>
+                <img id="processed-image" class="w-full rounded" src="" alt="Processed">
+            </div>
+        </div>
+        
+        <div id="result" class="text-center p-4 bg-gray-50 rounded">
+            <div class="text-lg font-medium">Prediction: <span id="prediction-text">-</span></div>
+            <div class="text-sm text-gray-600">Confidence: <span id="confidence-text">0</span>%</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('upload-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const file = document.getElementById('file-input').files[0];
+    if (!file) {
+        alert('Please select an image first');
+        return;
+    }
+
+    const preview = document.getElementById('preview');
+    const previewImage = document.getElementById('preview-image');
+    const processedImage = document.getElementById('processed-image');
+    const predictionText = document.getElementById('prediction-text');
+    const confidenceText = document.getElementById('confidence-text');
+    const submitButton = this.querySelector('button[type="submit"]');
+
+    // Show preview
+    previewImage.src = URL.createObjectURL(file);
+    preview.classList.remove('hidden');
+
+    // Disable submit button and show loading state
+    submitButton.disabled = true;
+    submitButton.textContent = 'Processing...';
+
+    // Create form data
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/predict', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            processedImage.src = result.preprocessed_image;
+            predictionText.textContent = result.prediction;
+            confidenceText.textContent = result.confidence.toFixed(1);
+        } else {
+            throw new Error(result.error || 'Failed to process image');
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    } finally {
+        // Re-enable submit button
+        submitButton.disabled = false;
+        submitButton.textContent = 'Upload and Predict';
+    }
+});
+</script>
+{% endblock %}
+                <p class="text-green-500 font-medium mb-4">Sign Language Interpretation</p>
+                <h1 class="text-4xl font-bold mb-4">Breaking Barriers with<br>Sign Language Recognition</h1>
+                <p class="text-gray-600 mb-8">Upload images, videos, or use your camera for real-time sign language interpretation and bridge communication gaps.</p>
+                
+                <div class="flex gap-4 mb-12">
+                    <button id="start-camera" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300 flex items-center">
+                        Start Live Capture
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button id="upload-media" class="bg-white text-gray-700 px-6 py-3 rounded-lg border hover:bg-gray-50 transition duration-300">
+                        Upload Media
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold mb-8">Input Methods</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Live Camera Card -->
+                    <div class="input-card">
+                        <div class="icon-circle">
+                            <i class="fas fa-camera text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Live Camera</h3>
+                        <p class="text-gray-600">Interpret sign language in real-time using your camera</p>
+                    </div>
+
+                    <!-- Image Upload Card -->
+                    <div class="input-card">
+                        <div class="icon-circle">
+                            <i class="fas fa-image text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Image Upload</h3>
+                        <p class="text-gray-600">Upload images containing sign language gestures</p>
+                    </div>
+
+                    <!-- Video Upload Card -->
+                    <div class="input-card">
+                        <div class="icon-circle">
+                            <i class="fas fa-video text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Video Upload</h3>
+                        <p class="text-gray-600">Upload videos containing sign language gestures</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden file input -->
+            <input type="file" id="file-input" class="hidden" accept="image/*,video/*">
+
+            <!-- Preview Section (Initially Hidden) -->
+            <div id="preview" class="hidden fade-in mt-12">
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-gray-700">Original Input</h3>
+                            <img id="preview-image" class="w-full rounded-lg" src="" alt="Preview">
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-gray-700">Processed Result</h3>
+                            <img id="processed-image" class="w-full rounded-lg" src="" alt="Processed">
+                        </div>
+                    </div>
+                    <div class="mt-8 text-center">
+                        <button id="predict-btn" class="bg-green-500 text-white px-8 py-3 rounded-lg hover:bg-green-600 transition duration-300">
+                            <span>Analyze Sign</span>
+                            <i class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Section (Initially Hidden) -->
+            <div id="result" class="hidden fade-in mt-8">
+                <div class="bg-white rounded-xl border p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Recognition Result</h2>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <p class="text-xl">Detected Sign: <span id="prediction-text" class="font-bold text-green-600"></span></p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="text-lg">Confidence Score: <span id="confidence-text" class="font-bold text-blue-600"></span>%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const preview = document.getElementById('preview');
+        const previewImage = document.getElementById('preview-image');
+        const predictBtn = document.getElementById('predict-btn');
+        const result = document.getElementById('result');
+        const predictionText = document.getElementById('prediction-text');
+        const confidenceText = document.getElementById('confidence-text');
+        const uploadMediaBtn = document.getElementById('upload-media');
+        const startCameraBtn = document.getElementById('start-camera');
+
+        uploadMediaBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            handleFile(file);
+        });
+
+        function handleFile(file) {
+            if (file && (file.type.startsWith('image/') || file.type.startsWith('video/'))) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    result.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        predictBtn.addEventListener('click', async () => {
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                predictBtn.disabled = true;
+                predictBtn.querySelector('i').classList.remove('hidden');
+                
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                document.getElementById('processed-image').src = data.preprocessed_image;
+                predictionText.textContent = data.prediction;
+                confidenceText.textContent = data.confidence;
+                result.classList.remove('hidden');
+            } catch (error) {
+                alert('Error making prediction. Please try again.');
+            } finally {
+                predictBtn.disabled = false;
+                predictBtn.querySelector('i').classList.add('hidden');
+            }
+        });
+
+        // Live camera functionality can be implemented here
+        startCameraBtn.addEventListener('click', () => {
+            // Implement camera access and real-time processing
+            alert('Live camera functionality coming soon!');
+        });
+    </script>
+</body>
+</html>
