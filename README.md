@@ -184,12 +184,6 @@ attribution.
 
 Built with ❤️ using Python, Flask, TensorFlow, and OpenCV
 
-yaml Copy code
-
 ---
 
-Would you like me to **add dataset preprocessing and model training
-explanation** (step-by-step code summary from your `.ipynb`
-notebook) to this MD file too? It would make the documentation even more
-complete for academic/project submission.
 
