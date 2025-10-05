@@ -1,27 +1,27 @@
-\# 🧠 SignLang-Final --- Sign Language Recognition System
+# 🧠 SignLang-Final --- Sign Language Recognition System
 
-\> \_"Translating gestures into words, bridging silence with
-technology."\_
+> _"Translating gestures into words, bridging silence with
+technology."_
 
-\-\--
+---
 
-\## 📘 Overview
+## 📘 Overview
 
-\*\*SignLang-Final\*\* is a deep learning--based system that recognizes
-\*\*American Sign Language (ASL)\*\* gestures from images or videos. It
-integrates \*\*Convolutional Neural Networks (CNN)\*\* (using
-\*\*VGG16\*\*) with a \*\*Flask web application\*\* to classify sign
+**SignLang-Final** is a deep learning--based system that recognizes
+**American Sign Language (ASL)** gestures from images or videos. It
+integrates **Convolutional Neural Networks (CNN)** (using
+**VGG16**) with a **Flask web application** to classify sign
 gestures and display results through a simple user interface.
 
 The project serves as a base for developing intelligent communication
 aids for hearing and speech-impaired individuals.
 
-\-\--
+---
 
-\## 🏗️ Project Structure
+## 🏗️ Project Structure
 
-SignLang-Final/ ├── app.py \# Flask web application backend ├──
-templates/ \# Frontend HTML templates │ ├── index.html │ └── result.html
+SignLang-Final/ ├── app.py # Flask web application backend ├──
+templates/ # Frontend HTML templates │ ├── index.html │ └── result.html
 ├── static/ \# Static assets (CSS, JS, images, models) │ ├── css/ │ ├──
 js/ │ └── images/ ├── asl_vgg16_local.ipynb \# Notebook for training
 VGG16 model ├── notebook20796be3f4.ipynb \# Experimental notebook /
@@ -31,21 +31,21 @@ readme
 
 yaml Copy code
 
-\-\--
+---
 
-\## ⚙️ Setup & Installation
+## ⚙️ Setup & Installation
 
-\### 🧩 Prerequisites - Python 3.8 or above  - pip (Python package
+### 🧩 Prerequisites - Python 3.8 or above  - pip (Python package
 manager)  - (Optional) NVIDIA GPU with CUDA for faster
 training/inference
 
-\### 📦 Installation Steps
+### 📦 Installation Steps
 
-1\. \*\*Clone the repository\*\* \`\`\`bash git clone
+1. **Clone the repository** ```bash git clone
 https://github.com/Sayanandh/SignLang-Final.git cd SignLang-Final Create
 and activate a virtual environment
 
-bash Copy code python -m venv venv venv\\Scripts\\activate \# On Windows
+bash Copy code python -m venv venv venv\Scripts\activate \# On Windows
 source venv/bin/activate \# On macOS/Linux Install dependencies
 
 bash Copy code pip install -r requirements.txt Run the Flask app
@@ -85,7 +85,7 @@ Train for multiple epochs (e.g., 50--100).
 Save trained model as .h5 for deployment in app.py.
 
 🌐 Web Application Architecture mermaid Copy code flowchart TD A\[User
-Uploads Image/Video\] \--\> B\[Flask Backend (app.py)\] B \--\>
+Uploads Image/Video\] --\> B\[Flask Backend (app.py)\] B --\>
 C\[Preprocessing with OpenCV\] C \--\> D\[VGG16 Model Prediction\] D
 \--\> E\[Predicted Gesture Class\] E \--\> F\[Frontend UI (Result
 Page)\] 🧩 Flask Routes (Example) Route Method Description / GET Renders
@@ -129,10 +129,10 @@ Speed up inference Enable GPU / use model quantization
 
 🧱 System Flow Diagram mermaid Copy code sequenceDiagram participant
 User participant Frontend participant Backend participant Model
-User-\>\>Frontend: Uploads sign image/video Frontend-\>\>Backend: Sends
-input request Backend-\>\>Model: Preprocess & Predict
-Model\--\>\>Backend: Returns predicted class Backend\--\>\>Frontend:
-Sends response Frontend\--\>\>User: Displays recognized sign 🚀 Future
+User->>Frontend: Uploads sign image/video Frontend->\>Backend: Sends
+input request Backend->\>Model: Preprocess & Predict
+Model--\>>Backend: Returns predicted class Backend-->>Frontend:
+Sends response Frontend-->>User: Displays recognized sign 🚀 Future
 Enhancements 🧩 Add video-based recognition (RNN/LSTM integration)
 
 📹 Enable real-time webcam inference
@@ -178,17 +178,18 @@ attribution.
 
 🎓 BTech CSE Student @ SCMS SSET
 
-💡 AI & ML \| Computer Vision \| Flutter \| Backend Developer
+💡 AI & ML | Computer Vision | Flutter | Backend Developer
 
-🌐 GitHub: \@Sayanandh
+🌐 GitHub: @Sayanandh
 
 Built with ❤️ using Python, Flask, TensorFlow, and OpenCV
 
 yaml Copy code
 
-\-\--
+---
 
-Would you like me to \*\*add dataset preprocessing and model training
-explanation\*\* (step-by-step code summary from your \`.ipynb\`
+Would you like me to **add dataset preprocessing and model training
+explanation** (step-by-step code summary from your `.ipynb`
 notebook) to this MD file too? It would make the documentation even more
 complete for academic/project submission.
+
